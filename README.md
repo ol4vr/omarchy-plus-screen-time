@@ -28,14 +28,14 @@ down into a donut chart with a 7-day usage trend.
 | **Usage patterns** | Press `p` for a 7-day trend, top app, vs. yesterday, and your busiest day. |
 | **Icon-only mode** | Right-click to collapse the widget to a single glyph; remembered. |
 | **Keyboard-first** | `Esc` closes the panel, `p` toggles patterns, `j`/`k`/arrows scroll; mouse wheel works too. |
-| **Keybind-friendly** | Summon the panel from a script or keybind via the `agx.screen-time` IPC target. |
+| **Keybind-friendly** | Summon the panel from a script or keybind via the `io.github.ol4vr.screen-time` IPC target. |
 | **Private by design** | Local JSON, pruned after 31 days; colours generated from your theme's accent. |
 
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/ax1g/quickshell-screentime-plugin.git
-omarchy plugin enable agx.screen-time
+omarchy plugin add https://github.com/ol4vr/omarchy-plus-screen-time.git
+omarchy plugin enable io.github.ol4vr.screen-time
 ```
 
 Requires Omarchy, Hyprland, and a Nerd Font for the glyphs.
@@ -43,8 +43,8 @@ Requires Omarchy, Hyprland, and a Nerd Font for the glyphs.
 ## Uninstall
 
 ```bash
-omarchy plugin disable agx.screen-time
-omarchy plugin remove agx.screen-time
+omarchy plugin disable io.github.ol4vr.screen-time
+omarchy plugin remove io.github.ol4vr.screen-time
 ```
 
 To also delete the history file:
@@ -76,7 +76,7 @@ The shell hot-reloads the plugin whenever a file changes, so a symlink into
 your checkout is all you need to iterate:
 
 ```bash
-ln -s "$PWD" ~/.config/omarchy/plugins/agx.screen-time
+ln -s "$PWD" ~/.config/omarchy/plugins/io.github.ol4vr.screen-time
 node --check Model.js && node --test tests/model.test.js
 python3 -m unittest discover -s tests
 ```

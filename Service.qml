@@ -11,7 +11,7 @@ import "Model.js" as Model
 // window means the clock is paused; idle/lock/desktop time is not counted.
 //
 // Persistence is a single append-only JSON file
-//   ~/.config/omarchy/screen-time/history.json
+//   ${XDG_STATE_HOME:-~/.local/state}/omarchy/screen-time/history.json
 // shaped as
 //   { "<YYYY-MM-DD>": { "total": <ms>, "apps": { "<appId>": <ms> } } }
 //
@@ -25,7 +25,8 @@ Item {
   property var shell: null
 
   readonly property string home: Quickshell.env("HOME")
-  readonly property string dataDir: home + "/.config/omarchy/screen-time"
+  readonly property string stateHome: Quickshell.env("XDG_STATE_HOME") || home + "/.local/state"
+  readonly property string dataDir: stateHome + "/omarchy/screen-time"
   readonly property string historyPath: dataDir + "/history.json"
   readonly property string resolverPath: {
     var u = Qt.resolvedUrl("resolve_app.py").toString()
@@ -262,7 +263,7 @@ Item {
     // Expected on the very first run (file seeded by ensureDirProc) and on
     // a malformed file. Preserve a corrupt file before the next persist
     // overwrites it, then start empty rather than refusing to track.
-    console.warn("agx.screen-time: history load failed, starting empty")
+    console.warn("io.github.ol4vr.screen-time: history load failed, starting empty")
     if (!root.backupAttempted) {
       root.backupAttempted = true
       backupProc.running = true
@@ -294,7 +295,7 @@ Item {
   Process {
     id: ensureDirProc
     command: ["bash", "-c",
-      "mkdir -p \"$HOME/.config/omarchy/screen-time\"; f=\"$HOME/.config/omarchy/screen-time/history.json\"; [[ -f \"$f\" ]] || printf '{}\\n' > \"$f\""]
+      "umask 077; d=\"${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/screen-time\"; mkdir -p \"$d\"; chmod 700 \"$d\"; f=\"$d/history.json\"; [[ -f \"$f\" ]] || printf '{}\n' > \"$f\"; chmod 600 \"$f\""]
     onExited: historyFile.reload()
   }
 
@@ -319,7 +320,7 @@ Item {
   Process {
     id: backupProc
     command: ["bash", "-c",
-      "f=\"$HOME/.config/omarchy/screen-time/history.json\"; if [[ -s \"$f\" ]] && ! python3 -c 'import json,sys; json.load(open(sys.argv[1]))' \"$f\" 2>/dev/null; then mv -f \"$f\" \"$f.corrupt-$(date +%s)\"; fi"]
+      "f=\"${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/screen-time/history.json\"; if [[ -s \"$f\" ]] && ! python3 -c 'import json,sys; json.load(open(sys.argv[1]))' \"$f\" 2>/dev/null; then mv -f \"$f\" \"$f.corrupt-$(date +%s)\"; fi"]
   }
 
   // A terminal's foreground process changes without the compositor noticing

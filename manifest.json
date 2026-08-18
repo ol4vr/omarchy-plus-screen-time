@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "agx.screen-time",
-  "name": "Screen Time",
-  "version": "1.2.0",
-  "author": "agx",
+  "id": "io.github.ol4vr.screen-time",
+  "name": "Omarchy+ Screen Time",
+  "version": "1.2.1",
+  "author": "Olav Rorvik",
   "description": "Know where your time goes. Live per-app screen time in your bar with a donut breakdown, 7-day trends, and usage insights — terminal-aware, keyboard-first, fully local.",
   "kinds": [
     "service",
@@ -19,6 +19,7 @@
     "description": "Daily screen time per app with usage insights",
     "category": "Wellbeing",
     "allowMultiple": false,
-    "defaultSection": "right"
-  }
+    "defaultSection": "left"
+  },
+  "homepage": "https://github.com/ol4vr/omarchy-plus-screen-time"
 }

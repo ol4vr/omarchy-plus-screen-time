@@ -10,9 +10,9 @@ import qs.Commons
 // reads its state and hosts the panel.
 BarWidget {
   id: root
-  moduleName: "agx.screen-time"
+  moduleName: "io.github.ol4vr.screen-time"
 
-  readonly property var service: bar && bar.shell ? bar.shell.serviceFor("agx.screen-time") : null
+  readonly property var service: bar && bar.shell ? bar.shell.serviceFor("io.github.ol4vr.screen-time") : null
   readonly property string label: service ? service.barLabel : ""
   readonly property bool hasActivity: service ? service.hasActivity : false
 
@@ -102,7 +102,7 @@ BarWidget {
   }
 
   IpcHandler {
-    target: "agx.screen-time"
+    target: "io.github.ol4vr.screen-time"
     function open(): void { root.open() }
     function close(): void { root.close() }
     function show(): void { root.open() }
@@ -110,7 +110,7 @@ BarWidget {
     function toggle(): void { root.togglePanel() }
     function status(): void {
       var p = panelLoader.item
-      console.log("agx.screen-time status: opened=" + (p ? p.opened : "no-panel")
+      console.log("io.github.ol4vr.screen-time status: opened=" + (p ? p.opened : "no-panel")
         + " label=" + root.label + " hasActivity=" + root.hasActivity
         + " apps=" + (root.service ? root.service.appList().length : "none"))
     }

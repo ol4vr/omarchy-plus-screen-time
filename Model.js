@@ -46,7 +46,31 @@ function canonicalApp(name) {
 // segment and title-cased; plain binary names pass through unchanged.
 function displayName(app) {
   if (!app) return ""
-  var s = String(app)
+  var s = canonicalApp(String(app))
+
+  if (s === "brave" || s === "brave-origin") return "Brave"
+
+  var webPrefix = /^(brave|google-chrome|chromium)-/i
+  if (s.indexOf("__") !== -1 && webPrefix.test(s)) {
+    var host = s.replace(webPrefix, "").split("__")[0].toLowerCase()
+    var knownWebApps = {
+      "chatgpt.com": "ChatGPT",
+      "chat.openai.com": "ChatGPT",
+      "github.com": "GitHub",
+      "youtube.com": "YouTube"
+    }
+
+    if (Object.prototype.hasOwnProperty.call(knownWebApps, host)) {
+      return knownWebApps[host]
+    }
+
+    host = host.replace(/^www\./, "")
+    var parts = host.split(".")
+    var label = parts.length > 1 ? parts[parts.length - 2] : parts[0]
+    label = label.replace(/[-_]+/g, " ")
+    if (label) return label.charAt(0).toUpperCase() + label.slice(1)
+  }
+
   if (s.indexOf(".") === -1) return s
   var last = s.split(".").pop()
   if (!last) return s
@@ -277,7 +301,7 @@ function insights(day, days, todayKey, activeKey) {
   var apps = appList(day)
   var topApp = apps.length ? apps[0] : null
   var topLabel = topApp
-    ? topApp.app + " \u00b7 " + fmt(topApp.ms) + " (" + topApp.pct + "%)"
+    ? displayName(topApp.app) + " \u00b7 " + fmt(topApp.ms) + " (" + topApp.pct + "%)"
     : "\u2014"
   var list = [{ label: "Top app" + dayLabel, value: topLabel }]
 
