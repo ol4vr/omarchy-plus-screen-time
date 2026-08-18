@@ -9,7 +9,7 @@ import "Model.js" as Model
 // is a mirror of the Service's live state.
 Panel {
   id: root
-  moduleName: "agx.screen-time"
+  moduleName: "io.github.ol4vr.screen-time"
 
   property var anchorItem: null
   property var hostWidget: null
@@ -17,7 +17,7 @@ Panel {
 
   // The bar tracks the widget mounted in its slot — BarWidget.qml — so the
   // popout coordinator and panel switching must identify us by that widget.
-  readonly property var service: bar && bar.shell ? bar.shell.serviceFor("agx.screen-time") : null
+  readonly property var service: bar && bar.shell ? bar.shell.serviceFor("io.github.ol4vr.screen-time") : null
   readonly property bool serviceReady: service && service.ready === true
   readonly property var today: service ? service.today : null
   readonly property var days: service ? service.days : {}
