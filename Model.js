@@ -48,16 +48,16 @@ function displayName(app) {
   if (!app) return ""
   var s = canonicalApp(String(app))
 
-  if (s === "brave" || s === "brave-origin") return "Brave"
+  if (s === "brave" || s === "brave-origin") return "brave"
 
   var webPrefix = /^(brave|google-chrome|chromium)-/i
   if (s.indexOf("__") !== -1 && webPrefix.test(s)) {
     var host = s.replace(webPrefix, "").split("__")[0].toLowerCase()
     var knownWebApps = {
-      "chatgpt.com": "ChatGPT",
-      "chat.openai.com": "ChatGPT",
-      "github.com": "GitHub",
-      "youtube.com": "YouTube"
+      "chatgpt.com": "chatgpt",
+      "chat.openai.com": "chatgpt",
+      "github.com": "github",
+      "youtube.com": "youtube"
     }
 
     if (Object.prototype.hasOwnProperty.call(knownWebApps, host)) {
